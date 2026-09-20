@@ -22,10 +22,10 @@
 
 Add one sentence describing each role after you assign them in Part 1:
 
-- **Scrum Master:** [Your one-sentence description]
-- **System Admin:** [Your one-sentence description]
-- **QA:** [Your one-sentence description]
-- **Developer:** [Your one-sentence description]
+- **Scrum Master:** Helps the team stay organized and makes sure sprint tasks are moving forward.
+- **System Admin:** Manages and maintains the teams technical tools as well as makes sure systems are working properly.
+- **QA:** Checks the team's work to make sure it works correctly and meets the requirements.
+- **Developer:** Works on implementing and completing the team's technical tasks.
 
 ## 7-Sprint Rotation Schedule
 
