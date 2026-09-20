@@ -47,6 +47,6 @@ Document three decisions your team made about operating the shared container and
 
 1. **Response Time:** 8 Hours.
 
-2. **Developers** 4 Developers every week.
+2. **Developers:** 4 Developers every week.
 
-3. **Lab Work** Spend as much time as possible during Thursday class nights to maximize cowork and communication with infrastructure.
+3. **Lab Work:** Spend as much time as possible during Thursday class nights to maximize cowork and communication with infrastructure.
