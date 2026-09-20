@@ -2,7 +2,7 @@
 
 ## Team Identity
 
-**Team Name:** [To be filled in]
+**Team Name:** Group 2
 
 **Team Number:** 2
 
