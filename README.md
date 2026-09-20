@@ -1,7 +1,7 @@
 # INET 4031: Team 2
 ## Team
 
-**Team Name:** [To be filled]
+**Team Name:** Group 2
 
 **Team Number:** 2
 
