@@ -37,7 +37,7 @@ Sprint 2: Scrum Master = Marcos, System Admin = Jakob, QA = Diego, Developers = 
 Sprint 3: Scrum Master = Ty, System Admin = Tyler, QA = Jakob, Developers = Randeep/Marcos/Sumaya/Diego
 Sprint 4: Scrum Master = Diego, System Admin = Ty, QA = Marcos, Developers = Jakob/Randeep/Tyler/Sumaya
 Sprint 5: Scrum Master = Tyler, System Admin = Diego, QA = Randeep, Developers = Jakob/Marcos/Ty/Sumaya
-Sprint 6: Scrum Master = Sumaya, System Admin = Randeep, QA = Ty, Developers = Jakob/Tyler/Diego/Sumaya
+Sprint 6: Scrum Master = Sumaya, System Admin = Randeep, QA = Ty, Developers = Jakob/Tyler/Diego/Marcos
 Sprint 7: Scrum Master = Randeep, System Admin = Sumaya, QA = Tyler, Developers = Marcos/Ty/Jakob/Diego
 ```
 
