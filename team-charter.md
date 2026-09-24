@@ -50,3 +50,7 @@ Document three decisions your team made about operating the shared container and
 2. **Developers:** 4 Developers every week.
 
 3. **Lab Work:** Spend as much time as possible during Thursday class nights to maximize cowork and communication with infrastructure.
+
+## Communication Platform
+
+Google chat group. Named "Scrum Team Group 2".
