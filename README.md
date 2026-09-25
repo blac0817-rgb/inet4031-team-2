@@ -1,4 +1,4 @@
-# INET 4031: Team [number] Repository
+# INET 4031: Team 2 Repository
 
 This is the semester-long repository for our team's INET 4031 Systems Administration
 project: an incident-tracking application built and operated across nine weeks,
@@ -9,7 +9,7 @@ observability, security hardening, and backup/recovery.
 
 ## Team
 
-**Team Name:** Scrum Team 
+**Team Name:** Scrum Team 2
 
 **Team Number:** 2
 
