@@ -192,9 +192,9 @@ All checks passed!
 
 **Overall Status:** [x] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
-**Blockers:** [List any blockers that prevent submission]
+**Blockers:** [None]
 
-**Corrective Actions Taken:** [List any fixes applied during QA]
+**Corrective Actions Taken:** [None]
 
 **QA Sign-Off:**
 
