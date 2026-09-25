@@ -56,7 +56,7 @@ caps-inet4031-dev-app-02.oit.umn.edu
 **Notes:**
 [Any issues encountered or observations]
 
-**Sign-off:** [ ] QA approves this check
+**Sign-off:** [x] QA approves this check
 
 ---
 
