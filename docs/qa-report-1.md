@@ -85,16 +85,16 @@ week-9
 ```
 
 **Expected directories present:**
-- [ ] README.md
-- [ ] ansible
-- [ ] scripts
-- [ ] team-charter.md
-- [ ] week-1 to week-9
+- [x] README.md
+- [x] ansible
+- [x] scripts
+- [x] team-charter.md
+- [x] week-1 to week-9
 
 **Notes:**
 [Any missing directories or issues]
 
-**Sign-off:** [ ] QA approves this check
+**Sign-off:** [x] QA approves this check
 
 ---
 
