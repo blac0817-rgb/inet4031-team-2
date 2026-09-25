@@ -15,7 +15,42 @@ QA is responsible for running all validation checks and signing off before deliv
 
 **Evidence:**
 ```
-[Paste output of each team member running `whoami` and `hostname`]
+[blac0817@caps-inet4031-dev-app-02 ~]$ whoami
+blac0817
+[blac0817@caps-inet4031-dev-app-02 ~]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[blac0817@caps-inet4031-dev-app-02 ~]$ 
+
+[diego@caps-inet4031-dev-app-02 ~]$ whoami
+diego
+[diego@caps-inet4031-dev-app-02 ~]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[diego@caps-inet4031-dev-app-02 ~]$
+
+[flore959@caps-inet4031-dev-app-02 ~]$ whoami
+flore959
+[flore959@caps-inet4031-dev-app-02 ~]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[flore959@caps-inet4031-dev-app-02 ~]$
+
+[ahme0745@caps-inet4031-dev-app-02 ~]$ whoami
+ahme0745
+[ahme0745@caps-inet4031-dev-app-02 ~]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[ahme0745@caps-inet4031-dev-app-02 ~]$
+	
+[her00278@caps-inet4031-dev-app-02 inet4031-team-2]$ whoami
+her00278
+[her00278@caps-inet4031-dev-app-02 inet4031-team-2]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[her00278@caps-inet4031-dev-app-02 inet4031-team-2]$
+
+[xion2368@caps-inet4031-dev-app-02 ~]$ whoami
+xion2368
+[xion2368@caps-inet4031-dev-app-02 ~]$ hostname
+caps-inet4031-dev-app-02.oit.umn.edu
+[xion2368@caps-inet4031-dev-app-02 ~]$
+
 ```
 
 **Notes:**
