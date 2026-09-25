@@ -9,18 +9,20 @@ observability, security hardening, and backup/recovery.
 
 ## Team
 
-**Team Name:** [To be filled]
+**Team Name:** Scrum Team 
 
-**Team Number:** [Enter number provided by professor]
+**Team Number:** 2
 
 **Roster:**
 
-| Name |
-|------|
-| |
-| |
-| |
-| |
+| Name----- |
+|Jakob|
+|Marcos|
+|Sumaya|
+|Diego|
+|Ty|
+|Tyler|
+|Randeep|
 
 See `team-charter.md` for role assignments and the 7-sprint rotation schedule.
 
@@ -45,10 +47,8 @@ repo, it will never replace this repository.
 
 ## Team Documents
 
-**Google Doc:** [Google Doc link will go here]
+**Google Doc:** https://docs.google.com/document/d/1cKZ5M6EO2Cq8WVcOM9jIa4A0AK0kp6CmjXptyxA5kSg/edit?usp=sharing
 
-All sprint reflections, screenshots, and storage-check output are recorded in this
-document as each week's wiki directions require.
 
 ## Getting Started
 
@@ -58,8 +58,4 @@ document as each week's wiki directions require.
    all Week 1 requirements are met.
 4. Reference `docs/qa-report-1.md` for the sign-off checklist.
 
-## Questions or Issues
 
-1. Check the troubleshooting notes in the wiki.
-2. Consult with your team's System Admin and QA roles.
-3. Contact the course instructor if blocked.
