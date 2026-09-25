@@ -45,7 +45,7 @@ Sprint 7: Scrum Master = Randeep, System Admin = Sumaya, QA = Tyler, Developers 
 
 Document three decisions your team made about operating the shared container and managing infrastructure changes:
 
-1. **Response Time:** 8 Hours.
+1. **Response Time/Location:** 8 Hours. We will be meeting on zoom and communicating on google chat.
 
 2. **Developers:** 4 Developers every week.
 
