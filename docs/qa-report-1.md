@@ -100,20 +100,20 @@ week-9
 
 ### Check 3: Google Doc Is Linked and Shared
 
-**Status:** [ ] PASS [ ] FAIL
+**Status:** [x] PASS [ ] FAIL
 
 **Evidence:**
-- [ ] Google Doc URL present in README.md
-- [ ] URL is accessible at: [Paste URL here]
-- [ ] Doc is readable by University of Minnesota users
-- [ ] Sprint 1 Reflections section contains Part 2 answers
-- [ ] Sprint 1 Reflections section contains Part 3 answers
-- [ ] Week 1 Storage Baseline section contains required outputs
+- [x] Google Doc URL present in README.md
+- [x] URL is accessible at: [ https://docs.google.com/document/d/1cKZ5M6EO2Cq8WVcOM9jIa4A0AK0kp6CmjXptyxA5kSg/edit?usp=sharing]
+- [x] Doc is readable by University of Minnesota users
+- [x] Sprint 1 Reflections section contains Part 2 answers
+- [x] Sprint 1 Reflections section contains Part 3 answers
+- [x] Week 1 Storage Baseline section contains required outputs
 
 **Notes:**
 [Any access or content issues]
 
-**Sign-off:** [ ] QA approves this check
+**Sign-off:** [x] QA approves this check
 
 ---
 
