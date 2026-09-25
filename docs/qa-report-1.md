@@ -119,7 +119,7 @@ week-9
 
 ### Check 4: Check Script Passes
 
-**Status:** [ ] PASS [ ] FAIL
+**Status:** [x] PASS [ ] FAIL
 
 **Command Run:**
 ```bash
@@ -128,19 +128,69 @@ week-9
 
 **Output:**
 ```
-[Paste full output]
+==========================================
+Week 1 Validation Check
+==========================================
+
+Checking repository structure...
+[PASS] File exists: README.md
+[PASS] File exists: team-charter.md
+[PASS] File exists: ansible/site.yml
+[PASS] File exists: ansible/inventory
+[PASS] File exists: .gitignore
+[PASS] Directory exists: ansible
+[PASS] Directory exists: scripts
+[PASS] Directory exists: week-1
+[PASS] Directory exists: week-2
+[PASS] Directory exists: week-3
+[PASS] Directory exists: week-4
+[PASS] Directory exists: week-5
+[PASS] Directory exists: week-6
+[PASS] Directory exists: week-7
+[PASS] Directory exists: week-8
+[PASS] Directory exists: week-9
+[PASS] Directory exists: docs
+
+Checking README.md content...
+[PASS] README.md contains team name field
+[PASS] README.md contains Google Doc link section
+
+Checking team-charter.md content...
+[PASS] team-charter.md contains section: Team Name
+[PASS] team-charter.md contains section: Team Number
+[PASS] team-charter.md contains section: Full Roster
+[PASS] team-charter.md contains section: 7-Sprint Rotation Schedule
+[PASS] team-charter.md contains section: Operating Agreements
+
+Checking Ansible configuration...
+[PASS] ansible/inventory configured for localhost
+[PASS] ansible/site.yml contains baseline play
+[PASS] ansible/site.yml contains dnf module usage
+[PASS] Ansible is installed
+
+Checking documentation files...
+[PASS] Documentation file exists: docs/sprint-1-retrospective.md
+[PASS] Documentation file exists: docs/qa-report-1.md
+
+==========================================
+Summary
+==========================================
+Passed: 30
+Failed: 0
+
+All checks passed!
 ```
 
 **Notes:**
 [Any failures or warnings from the script]
 
-**Sign-off:** [ ] QA approves this check
+**Sign-off:** [x] QA approves this check
 
 ---
 
 ## Summary
 
-**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
+**Overall Status:** [x] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
 **Blockers:** [List any blockers that prevent submission]
 
@@ -150,7 +200,7 @@ week-9
 
 By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-**QA Signature:** _________________    **Date:** __________
+**QA Signature:** Sumaya Ahmed   **Date:** 09/24/2026
 
 ---
 
