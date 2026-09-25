@@ -62,11 +62,26 @@ caps-inet4031-dev-app-02.oit.umn.edu
 
 ### Check 2: Repository Structure Is Correct
 
-**Status:** [ ] PASS [ ] FAIL
+**Status:** [x] PASS [ ] FAIL
 
 **Evidence:**
 ```
-[Paste output of `ls -1` from repo root]
+[ahme0745@caps-inet4031-dev-app-02 inet4031-team-2]$ ls -1
+ansible
+docs
+README.md
+scripts
+team-charter.md
+week-1
+week-2
+week-3
+week-4
+week-5
+week-6
+week-7
+week-8
+week-9
+[ahme0745@caps-inet4031-dev-app-02 inet4031-team-2]$ 
 ```
 
 **Expected directories present:**
