@@ -48,6 +48,17 @@ managing infrastructure changes:
 2. **Developers** 4 Developers every week.
 3. **Lab Work** Spend as much time as possible during Thursdays, arrange time at end of thursday for next meeting.
 
-4. ## Communication Method
+## Communication Method
   - Google Chat
+
+## Container Baseline:
+Operating System: Red Hat Enterprise Linux 9.8 (Plow)
+Disk Space: The root filesystem has 1.9 GB available. /var has 16 GB available, /var/lib has 6.5 GB available, and /home has 1.4 GB available.
+Installed Tools: Docker, Git, Python 3, curl, and Ansible are all installed.
+Docker Status: Docker Engine 29.8.1 is installed with Docker Buildx and Docker Compose. However, our user accounts are not members of the docker group, so docker info returns a permission-denied error. The Docker socket is owned by root:docker, and our accounts do not have sudo access. This will require assistance from the professor or system administrator.
+
+Ansible: Ansible Core 2.14.18 is installed and uses Python 3.9.25. Its configuration file is located at /etc/ansible/ansible.cfg.
+
+
+
 
