@@ -274,7 +274,7 @@ TODO: Paste the commands you ran
 TODO: Paste the output showing the incident was retrieved after restart
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x] Pass [ ] Fail
 
 **Notes:** Was data present after the restart? Was anything lost?
 
