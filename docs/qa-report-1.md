@@ -252,9 +252,9 @@ All three services are running. PostgreSQL and Flask report healthy status. Dock
 
 **Expected:** HTTP 200
 
-**Actual Result:** TODO: Record the status code
+**Actual Result:** 200[ahme0745@caps-inet4031-dev-app-02 week-2]$ 
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x] Pass [ ] Fail
 
 **Notes:** If the request failed, what error message did you see?
 
