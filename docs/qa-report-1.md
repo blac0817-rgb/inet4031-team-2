@@ -252,7 +252,7 @@ All three services are running. PostgreSQL and Flask report healthy status. Dock
 
 **Expected:** HTTP 200
 
-**Actual Result:** 200[ahme0745@caps-inet4031-dev-app-02 week-2]$ 
+**Actual Result:** [ahme0745@caps-inet4031-dev-app-02 week-2]$ 200
 
 **Status:** TODO: [x] Pass [ ] Fail
 
