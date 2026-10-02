@@ -242,7 +242,7 @@ week-2-nginx-1   nginx:alpine         "/docker-entrypoint.…"   nginx     About
 
 **Status:** TODO: [x] Pass [ ] Fail
 
-**Notes:** If any service shows "starting" or "exited", what did the logs reveal?
+**Notes:** 
 
 All three services are running. PostgreSQL and Flask report healthy status. Docker Compose displayed warnings about unset PostgreSQL environment variables and the obsolete version attribute, but the services started successfully and met the validation requirements.
 
