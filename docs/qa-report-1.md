@@ -266,19 +266,25 @@ All three services are running. PostgreSQL and Flask report healthy status. Dock
 
 **Steps Performed:**
 ```
-TODO: Paste the commands you ran
+curl -X POST http://localhost:8085/incidents \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Persistence check","status":"open","description":"this should survive a restart"}'
+docker compose restart db
+curl http://localhost:8085/incidents
 ```
 
 **Actual Result:**
 ```
-TODO: Paste the output showing the incident was retrieved after restart
+Container week-2-db-1 Restarting
+
+[{"created_at":"2026-10-02T02:45:46.903713+00:00","description":"this should survive a restart","id":2,"status":"open","title":"Persistence check"},{"created_at":"2026-10-02T02:45:25.611241+00:00","description":"this should survive a restart","id":1,"status":"open","title":"Persistence check"}]
 ```
 
 **Status:** TODO: [x] Pass [ ] Fail
 
 **Notes:** Was data present after the restart? Was anything lost?
 
----
+Data was still present after the PostgreSQL container was restarted. The Persistence check incidents were successfully retrieved after the restart, so no data was lost.
 
 ### Check 4: Check Script Passes
 
@@ -288,10 +294,49 @@ TODO: Paste the output showing the incident was retrieved after restart
 
 **Actual Result:**
 ```
-TODO: Paste the full output of the check script
+[ahme0745@caps-inet4031-dev-app-02 week-2]$ chmod +x ../scripts/check-week2.sh
+[ahme0745@caps-inet4031-dev-app-02 week-2]$ ../scripts/check-week2.sh
+=========================================
+Week 2 Validation Checks
+=========================================
+
+
+Check 1: Required Week 2 Files
+-------------------------------
+[PASS] week-2/docker-compose.yml exists
+[PASS] week-2/.env.example exists
+[PASS] week-2/nginx.conf exists
+[PASS] week-2/app/ directory exists
+
+Check 2: .env Is Git-Ignored
+------------------------------
+[PASS] week-2/.env is excluded by .gitignore
+
+Check 3: Ansible app-stack Role
+---------------------------------
+[PASS] ansible/roles/app-stack/tasks/main.yml exists
+[PASS] ansible/site.yml includes the app-stack role
+
+Check 4: Docker Compose Stack Health
+--------------------------------------
+[PASS] db and flask report healthy (2 healthy; nginx has no healthcheck defined)
+
+Check 5: Application Health Check
+-----------------------------------
+[WARN] Nginx responded on http://localhost:8080/health but with HTTP 000000 (expected 200)
+
+=========================================
+Validation Summary
+=========================================
+Passed: 8
+Failed: 0
+Warnings: (see above)
+
+Status: ALL CHECKS PASSED
+[ahme0745@caps-inet4031-dev-app-02 week-2]$ 
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x] Pass [ ] Fail
 
 **Notes:** If any checks failed, what did the script report?
 
