@@ -348,18 +348,18 @@ Review the criteria below for each part of this week's deliverables. For each cr
 
 ### Part 1: Service Definition
 
-TODO: [ ] All three services start in correct order
-TODO: [ ] Health checks work as specified
+TODO: [x] All three services start in correct order
+TODO: [x] Health checks work as specified
 
 ### Part 2: Networking and Persistence
 
-TODO: [ ] Data persists across `docker compose restart`
-TODO: [ ] Data is lost after `docker compose down -v`
+TODO: [x] Data persists across `docker compose restart`
+TODO: [x] Data is lost after `docker compose down -v`
 
 ### Part 3: Environment
 
-TODO: [ ] `.env` is in `.gitignore`
-TODO: [ ] `.env.example` documents all variablest
+TODO: [x] `.env` is in `.gitignore`
+TODO: [x] `.env.example` documents all variablest
 
 ---
 
@@ -367,31 +367,31 @@ TODO: [ ] `.env.example` documents all variablest
 
 ### Required Files
 
-TODO: [ ] `week-2/docker-compose.yml` is committed
-TODO: [ ] `week-2/.env.example` is committed
-TODO: [ ] `week-2/nginx.conf` is committed
-TODO: [ ] `week-2/README.md` is committed
-TODO: [ ] `ansible/site.yml` includes app-stack role play
-TODO: [ ] `ansible/roles/app-stack/tasks/main.yml` is committed
-TODO: [ ] `.gitignore` excludes `week-2/.env`
+TODO: [x] `week-2/docker-compose.yml` is committed
+TODO: [x] `week-2/.env.example` is committed
+TODO: [x] `week-2/nginx.conf` is committed
+TODO: [x] `week-2/README.md` is committed
+TODO: [x] `ansible/site.yml` includes app-stack role play
+TODO: [x] `ansible/roles/app-stack/tasks/main.yml` is committed
+TODO: [x] `.gitignore` excludes `week-2/.env`
 
 ### GitHub Repository
 
-TODO: [ ] All changes are pushed to the main branch
-TODO: [ ] GitHub Project board shows all tasks completed
-TODO: [ ] PR descriptions explain implementation decisions
+TODO: [x] All changes are pushed to the main branch
+TODO: [x] GitHub Project board shows all tasks completed
+TODO: [x] PR descriptions explain implementation decisions
 
 ### Google Doc
 
-TODO: [ ] Sprint 1 Week 2 reflection answers are recorded
-TODO: [ ] Week 2 storage check values are recorded
-TODO: [ ] Required screenshots are attached
+TODO: [x] Sprint 1 Week 2 reflection answers are recorded
+TODO: [x] Week 2 storage check values are recorded
+TODO: [x] Required screenshots are attached
 
 ---
 
 ## Summary
 
-**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
+**Overall Status:** [x] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
 **Blockers:** [List any blockers that prevent submission]
 
@@ -401,7 +401,7 @@ TODO: [ ] Required screenshots are attached
 
 By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-**QA Signature:** _________________    **Date:** __________
+**QA Signature:** Sumaya Ahmed   **Date:** 10/01/2025
 
 ---
 
