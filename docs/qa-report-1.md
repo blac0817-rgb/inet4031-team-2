@@ -208,8 +208,8 @@ By signing below, QA certifies that all required validation checks have been exe
 
 QA is responsible for running all validation checks and signing off before deliverables are submitted. This report documents the validation process.
 
-**QA Team Member:** [Name]
-**Date Completed:** [Date]
+**QA Team Member:** [Sumaya Ahmed]
+**Date Completed:** [10/01/2026]
 
 ---
 
@@ -223,14 +223,28 @@ QA is responsible for running all validation checks and signing off before deliv
 
 **Actual Result:**
 ```
-TODO: Paste the actual output of docker compose ps
+TODO: [ahme0745@caps-inet4031-dev-app-02 week-2]$ docker compose ps
+WARN[0000] The "POSTGRES_PASSWORD" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_DB" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_USER" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_USER" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_USER" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_PASSWORD" variable is not set. Defaulting to a blank string. 
+WARN[0000] The "POSTGRES_DB" variable is not set. Defaulting to a blank string. 
+WARN[0000] /home/ahme0745/inet4031-team-2/week-2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+NAME             IMAGE                COMMAND                  SERVICE   CREATED              STATUS                        PORTS
+week-2-db-1      postgres:15-alpine   "docker-entrypoint.s…"   db        About a minute ago   Up About a minute (healthy)   5432/tcp
+week-2-flask-1   week-2-flask         "python3 app.py"         flask     About a minute ago   Up 49 seconds (healthy)       5000/tcp
+week-2-nginx-1   nginx:alpine         "/docker-entrypoint.…"   nginx     About a minute ago   Up 38 seconds                 0.0.0.0:8085->80/tcp, [::]:8085->80/tcp
+[ahme0745@caps-inet4031-dev-app-02 week-2]$ 
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x] Pass [ ] Fail
 
 **Notes:** If any service shows "starting" or "exited", what did the logs reveal?
 
----
+All three services are running. PostgreSQL and Flask report healthy status. Docker Compose displayed warnings about unset PostgreSQL environment variables and the obsolete version attribute, but the services started successfully and met the validation requirements.
 
 ### Check 2: Nginx Is Reachable on the Mapped Port
 
