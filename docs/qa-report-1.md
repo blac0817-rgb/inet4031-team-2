@@ -223,7 +223,7 @@ QA is responsible for running all validation checks and signing off before deliv
 
 **Actual Result:**
 ```
-TODO: [ahme0745@caps-inet4031-dev-app-02 week-2]$ docker compose ps
+[ahme0745@caps-inet4031-dev-app-02 week-2]$ docker compose ps
 WARN[0000] The "POSTGRES_PASSWORD" variable is not set. Defaulting to a blank string. 
 WARN[0000] The "POSTGRES_DB" variable is not set. Defaulting to a blank string. 
 WARN[0000] The "POSTGRES_USER" variable is not set. Defaulting to a blank string. 
