@@ -1,189 +1,233 @@
-# QA Report: Sprint 2 Week 3
+# QA Report: Sprint 2 Week 4
+
 QA is responsible for running all validation checks and signing off before deliverables are submitted. This report documents the validation process.
 
-**QA Team Member: Diego 
-**Date Completed: 10/04/2026
-----
+This week the team writes OpenTofu and Ansible code but does not run `tofu` or `ansible-playbook`. The checks below read your files and inspect your live cluster. The commands your team predicted in the Prediction Log are checked later, during the live rebuild.
+
+**QA Team Member:** [Name]
+**Date Completed:** [Date]
+
+---
 
 ## Validation Checks
-###Check 1: k3d Cluster Is Running
-**Test: Run k3d cluster list
 
-**Expected: ** One row showing myapp with SERVERS 1/1 and AGENTS 2/2 (all nodes up)
+### Check 1: Local Backend Is Explicit
 
-***Actual Result: ***
+**Test:** Run `grep -A3 "backend" infrastructure/main.tf`
 
-[diego@caps-inet4031-dev-app-02 scripts]$ k3d cluster list
-NAME    SERVERS   AGENTS   LOADBALANCER
-myapp   1/1       2/2      true
-
-**Status:** [X ] Pass [ ] Fail
-
-**Notes: **If any nodes aren't up, what did kubectl describe node <node-name> reveal?
-
-### Check 2: All Pods Running
-**Test:** Run kubectl get pods
-
-**Expected:** All pods in Running state with 1/1 in READY
+**Expected:** Output showing `backend "local" { path = "terraform.tfstate" }`
 
 **Actual Result:**
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get pods
+```
+TODO: Paste the actual output
+```
 
-NAME                     READY   STATUS    RESTARTS   AGE
-db-6b4545486-cdq59       1/1     Running   0          23m
-flask-86995cc5d9-jwqqc   1/1     Running   0          23m
-nginx-6847f4545-qj75s    1/1     Running   0          23m
+**Status:** TODO: [ ] Pass [ ] Fail
 
+**Notes:** Confirms state is stored locally on the team's VM, not in a remote backend.
 
-**Status** : [X ] Pass [ ] Fail
+---
 
-**Notes: ** If any pod is not Running (Pending, CrashLoopBackOff, ErrImagePull), what did kubectl describe pod <pod-name> or kubectl logs <pod-name> reveal?
--------
+### Check 2: Flask Deployment Is Set to 3 Replicas
 
-### Check 3: Credentials Are in a Secret, Not a Deployment
-**Test:** Run kubectl get deployment flask -o jsonpath='{.spec.template.spec.containers[0].env}' and kubectl get deployment db -o jsonpath='{.spec.template.spec.containers[0].env}', then kubectl get secret flask-credentials and kubectl get secret db-credentials
+**Test:** Run `grep -n "replicas" infrastructure/flask.tf`
 
-**Expected:** Both deployment env outputs are empty (no output) or show only non-credential variables; both Secrets exist
+**Expected:** A single line showing `replicas = 3`
 
-** Actual Result: **
+**Actual Result:**
+```
+TODO: Paste the actual output
+```
 
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get deployment flask -o jsonpath='{.spec.template.spec.containers[0].env}'
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get deployment db -o jsonpath='{.spec.template.spec.containers[0].env}'
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get secret flask-credentials
-NAME                TYPE     DATA   AGE
-flask-credentials   Opaque   4      113m
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get secret db-credentials
-NAME             TYPE     DATA   AGE
-db-credentials   Opaque   4      140m
-[diego@caps-inet4031-dev-app-02 scripts]$ 
+**Status:** TODO: [ ] Pass [ ] Fail
 
-** Status: ** [X ] Pass [ ] Fail
+**Notes:** Confirms the Part 3 replica change (Step 9) was made in the file. It was not applied to the cluster.
 
-** Notes: ** If credentials are still visible in either Deployment, which one and what variable?
+---
 
-### Check 4: RollingUpdate Strategy Applied
-** Test: ** Run kubectl get deployment db -o jsonpath='{.spec.strategy.type}'
+### Check 3: Week 3 Flask Manifests Removed
 
-** Expected: ** RollingUpdate
+**Test:** Run `ls manifests/ | grep flask`
 
-** Actual Result: ** Record the strategy type returned
-[diego@caps-inet4031-dev-app-02 scripts]$ kubectl get deployment db -o jsonpath='{.spec.strategy.type}'
-RollingUpdate[diego@caps-inet4031-dev-app-02 scripts]$ 
+**Expected:** Only `flask-secret.yaml` is listed
 
+**Actual Result:**
+```
+TODO: Paste the actual output
+```
 
-** Status: ** [ X] Pass [ ] Fail
+**Status:** TODO: [ ] Pass [ ] Fail
 
-** Notes:  ** This checks the db Deployment, not flask — kompose only generates a Recreate strategy for services with a volume mount, and only db has one.
+**Notes:** Confirms Step 6 was done with `git rm` and that `flask-secret.yaml` was kept. If the Deployment or Service manifest is still listed, OpenTofu and `kubectl apply -f manifests/` would both define `flask` on a rebuilt cluster.
 
---------
+---
 
-### Check 5: Check Script Passes
-** Test: ** Run chmod +x scripts/check-week3.sh then ./scripts/check-week3.sh
+### Check 4: State and Working Files Ignored
 
-** Expected: ** All checks pass with exit code 0
+**Test:** Run `grep -E "tfstate|\.terraform" .gitignore`
 
-** Actual Result: **
+**Expected:** Three lines, one each for `terraform.tfstate`, `terraform.tfstate.backup`, and `.terraform/`
 
-=========================================
-Week 3 Validation Checks
-=========================================
+**Actual Result:**
+```
+TODO: Paste the actual output
+```
 
+**Status:** TODO: [ ] Pass [ ] Fail
 
-Check 1: k3d Cluster Is Running
----------------------------------
-[PASS] k3d is installed
-[PASS] k3d cluster 'myapp' exists
-[PASS] k3d cluster has exactly 3 Ready nodes
+**Notes:** `.terraform/` holds downloaded provider binaries and must never be committed.
 
-Check 2: All Pods Running
--------------------------
-[PASS] All pods are in Running state
-[PASS] 3 pods report 1/1 Ready
+---
 
-Check 3: Credentials in Secrets, Not Deployments
-------------------------------------------------
-[PASS] Secret 'flask-credentials' exists
-[PASS] Secret 'db-credentials' exists
-[PASS] Flask Deployment does not have inline env vars (using envFrom/secretRef)
-[PASS] Postgres Deployment does not have inline env vars (using envFrom/secretRef)
+### Check 5: Ansible Role Is in Place
 
-Check 4: RollingUpdate Strategy Applied
-----------------------------------------
-[PASS] Postgres Deployment uses RollingUpdate strategy
-[PASS] Postgres Deployment has RollingUpdate parameters (maxSurge: 1, maxUnavailable: 0)
+**Test:** Run `ls ansible/roles/opentofu-setup/tasks/main.yml` and `grep -A5 "opentofu-setup" ansible/site.yml`
 
-Check 5: Application Health Check
------------------------------------
-[WARN] Application not responding to health check at http://localhost:8102/health (HTTP 000000) - may still be starting, or HOST_PORT in week-2/.env doesn't match your assigned port
+**Expected:** The file exists at that exact path, and the play in `site.yml` lists the `opentofu-setup` role
 
-Check 6: Ansible k3d-setup Role
---------------------------------
-[PASS] ansible/roles/k3d-setup/tasks/main.yml exists
-[PASS] ansible/site.yml includes k3d-setup role
+**Actual Result:**
+```
+TODO: Paste the actual output
+```
 
-Check 7: Manifests Directory
------------------------------
-[PASS] manifests/ directory exists
-[PASS] Found 10 YAML manifest files
-[PASS] Flask Secret manifest found (flask-secret.yaml)
-[PASS] Postgres Secret manifest found (db-secret.yaml)
-[PASS] No io.kompose.service labels remain in manifests/
-[PASS] flask-deployment.yaml image reference has been fixed
-[PASS] nginx-service.yaml is exposed as a LoadBalancer
+**Status:** TODO: [ ] Pass [ ] Fail
 
-=========================================
-Validation Summary
-=========================================
-Passed: 20
-Failed: 0
-Warnings: (see above)
+**Notes:** Was the file nested under `tasks/`? Does the play avoid `become`? Was `ansible-playbook` left unrun, as instructed?
 
-Status: ALL CHECKS PASSED 
+---
 
-** Status: ** [X ] Pass [ ] Fail
+### Check 6: Live Cluster Is Still Healthy
 
-** Notes: ** If any checks failed, what did the script report?
---------  
+**Test:** Run `kubectl get pods`
 
-##Acceptance Criteria Verification
+**Expected:** All pods in `Running` state with matching READY counts (for example `1/1`)
+
+**Actual Result:**
+```
+TODO: Paste the actual output of kubectl get pods
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** Nothing in this lab should have changed the live cluster. The Week 3 Flask Deployment must still be running, because later weeks build on it.
+
+---
+
+### Check 7: Prediction Log Is Complete
+
+**Test:** Open the team Google Doc and review the Week 4 Prediction Log
+
+**Expected:** P1 through P10 each have a prediction with one sentence of reasoning. The Actual column is filled in for P8 only.
+
+**Actual Result:** TODO: Record how many rows are complete and any missing reasoning
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** The check script cannot read the Google Doc, so QA confirms this by hand.
+
+---
+
+### Check 8: Check Script Passes
+
+**Test:** Run `./scripts/check-week4.sh`
+
+**Expected:** All checks pass with exit code 0
+
+**Actual Result:**
+```
+TODO: Paste the full output of the check script
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** If any checks failed, what did the script report? A `[WARN]` line does not fail the script, but list any warnings here.
+
+---
+
+## Acceptance Criteria Verification
+
 Review the criteria below for each part of this week's deliverables. For each criterion, record whether it was met:
 
-### Part 1: k3d Cluster Creation
-[X ] k3d cluster myapp created with 1 server and 2 agent nodes: [ X] Traefik disabled at cluster creation (--k3s-arg "--disable=traefik@server:0") [X ] kubectl get nodes shows all three nodes Ready
+### Part 1: Configure OpenTofu
 
-### Part 2: Docker Compose to Kubernetes Manifests
-[x ] kompose convert generated a Deployment and Service for db, flask, and nginx, plus a PersistentVolumeClaim and ConfigMap: [X ] All io.kompose.service labels replaced with app: labels: [X ] Plaintext credentials moved to flask-secret.yaml and db-secret.yaml; Deployments use envFrom/secretRef [X ] db-deployment.yaml strategy changed from Recreate to RollingUpdate [X ] flask-deployment.yaml image reference fixed to the locally built image (not the kompose placeholder) and imported into the cluster with k3d image import [X ] nginx-service.yaml changed from ClusterIP to LoadBalancer [X ] db-deployment.yaml liveness probe command split into separate array items
+TODO: [ ] `infrastructure/main.tf` defines the Kubernetes provider and an explicit local backend
+TODO: [ ] `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/` are excluded via `.gitignore`
+TODO: [ ] P1 is answered (what `tofu init` creates and why it runs before `plan`)
 
-### Part 3: Deploy and Verify
-[ X] Secrets applied before other manifests [X ] All pods reach Running / 1/1 Ready [X ] Application responds at http://localhost:8081/health [X ] Scaling flask to 2 replicas demonstrates a rolling update (new pod comes up before old one terminates)
+### Part 2: Define Kubernetes Resources with OpenTofu
 
-### Part 4: Ansible Update
- [X ] ansible/roles/k3d-setup/tasks/main.yml installs k3d and creates the cluster idempotently [X ] ansible/site.yml includes the k3d-setup play [X ] app-stack play commented out in ansible/site.yml (Kubernetes now supersedes Docker Compose) [X ] Playbook runs clean end to end
+TODO: [ ] `infrastructure/flask.tf` defines both a Deployment and a Service for `flask`
+TODO: [ ] Container image is `week-2-flask:latest` (not the `ghcr.io` placeholder), with `image_pull_policy = "IfNotPresent"`
+TODO: [ ] The Service listens on port 5000, and the nginx ConfigMap and `week-2/nginx.conf` were left unchanged
+TODO: [ ] `flask-deployment.yaml` and `flask-service.yaml` were removed from `manifests/` with `git rm` and committed (Step 6), and `flask-secret.yaml` was kept
+TODO: [ ] `kubectl delete` was not run, and the live Flask Deployment is still running
+TODO: [ ] P2, P3, and P4 are answered
+
+### Part 3: Make a Change and Predict Idempotency
+
+TODO: [ ] Replica count changed from 2 to 3 in `flask.tf` (file edit only, not applied)
+TODO: [ ] P5, P6, and P7 are answered, each with one sentence of reasoning
+
+### Part 4: k3s Resilience Validation
+
+TODO: [ ] P8 was answered before the Flask pod was deleted
+TODO: [ ] The deleted Flask pod was automatically recreated by Kubernetes, and the observed recovery time is recorded in the Actual column for P8
+TODO: [ ] P9 is answered (`tofu plan` after pod recovery), with the Actual column left blank
+
+### Part 5: Ansible Update
+
+TODO: [ ] `ansible/roles/opentofu-setup/tasks/main.yml` exists, nested correctly under `tasks/`
+TODO: [ ] The role confirms `tofu` is installed and runs `tofu init` against the `infrastructure/` directory
+TODO: [ ] `opentofu-setup` play appended to `ansible/site.yml` below the Week 1 and Week 3 plays, without `become`
+TODO: [ ] `ansible-playbook` was not run on the lab VM
+TODO: [ ] P10 is answered
+
+---
 
 ## Deliverables Verification
-Required Files
- [X ] manifests/ directory is committed with all Kubernetes manifests (Deployments, Services, Secrets, PVC, ConfigMap) [X ] manifests/flask-secret.yaml and manifests/db-secret.yaml are committed [X ] ansible/site.yml includes the k3d-setup play (and has app-stack commented out) [X ] ansible/roles/k3d-setup/tasks/main.yml is committed: [X ] week-2/docker-compose.yml is committed with the ports: entries added for db and flask
+
+### Required Files
+
+TODO: [ ] `infrastructure/main.tf` is committed (explicit local backend and Kubernetes provider)
+TODO: [ ] `infrastructure/flask.tf` is committed (Deployment and Service, replicas set to 3)
+TODO: [ ] Week 3 Flask Deployment and Service manifests are removed from `manifests/`
+TODO: [ ] `.gitignore` excludes `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/`
+TODO: [ ] `ansible/site.yml` includes the `opentofu-setup` play
+TODO: [ ] `ansible/roles/opentofu-setup/tasks/main.yml` is committed
+TODO: [ ] `scripts/check-week4.sh` is present and runs clean
 
 ### GitHub Repository
- [x ] All changes are pushed to the main branch [X ] GitHub Project board shows all Week 3 tasks completed
+
+TODO: [ ] All changes are pushed to the main branch
+TODO: [ ] GitHub Project board shows all tasks completed
+TODO: [ ] Commit messages describe the OpenTofu and Ansible changes
 
 ### Google Doc
- [X ] Sprint 1 close-out answers are recorded [X ] Sprint 2 kickoff environment state checkpoint is recorded: [X ] Week 3 discussion answers are recorded (k3d resource competition, kompose translation risks, RollingUpdate vs. Recreate, Secret encoding vs. encryption, PostgreSQL data durability) [X ] Required screenshots are attached: kompose output showing plaintext env vars and Recreate strategy (before fixes), kubectl get pods showing all pods Running, rolling update in progress (two Flask pods visible), ./scripts/check-week3.sh passing [X ] Week 3 storage check values are recorded
 
--------
+TODO: [ ] Prediction Log (P1 to P10) is complete, with the Actual column filled in for P8 only
+TODO: [ ] Screenshot showing the deleted pod cycling back to Running is attached
+TODO: [ ] Screenshot of `./scripts/check-week4.sh` passing is attached
+TODO: [ ] Discussion answers recorded for Parts 1 to 4 (providers, plan vs. apply, state storage, k3s recovery boundaries)
+TODO: [ ] Storage Check output (`df -h` and `docker system df`) is recorded
+
+---
 
 ## Summary
-**Overall Status:** [X ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
-*Blockers:** NA
+**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
-**Corrective Actions Taken:** NA
+**Blockers:** [List any blockers that prevent submission]
 
------
+**Corrective Actions Taken:** [List any fixes applied during QA]
 
-**QA Sign-Off: **Diego Lahoud 
+**QA Sign-Off:**
 
 By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-** QA Signature:** ___Diego Lahoud______________ ** Date:** ___10/04/2026_______
+**QA Signature:** _________________    **Date:** __________
 
+---
+
+## Notes for Sprint 3
+
+[Any observations or recommendations for the next sprint]
