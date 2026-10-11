@@ -35,8 +35,8 @@ resource "kubernetes_deployment" "flask" {
       spec {
         container {
           name              = "flask"
-          image             = "week-2-flask:latest"
-          image_pull_policy = "IfNotPresent"
+          image             = "week-2-flask:team2-v1"
+          image_pull_policy = "Never"
 
           env_from {
             secret_ref {
