@@ -4,8 +4,8 @@ QA is responsible for running all validation checks and signing off before deliv
 
 This week the team writes OpenTofu and Ansible code but does not run `tofu` or `ansible-playbook`. The checks below read your files and inspect your live cluster. The commands your team predicted in the Prediction Log are checked later, during the live rebuild.
 
-**QA Team Member:** [Name]
-**Date Completed:** [Date]
+**QA Team Member:** Diego Lahoud
+**Date Completed:** 10/08/2026
 
 ---
 
@@ -19,10 +19,14 @@ This week the team writes OpenTofu and Ansible code but does not run `tofu` or `
 
 **Actual Result:**
 ```
-TODO: Paste the actual output
+[diego@caps-inet4031-dev-app-02 week-4]$ grep -A3 "backend" infrastructure/main.tf
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:**: [x ] Pass [ ] Fail
 
 **Notes:** Confirms state is stored locally on the team's VM, not in a remote backend.
 
@@ -36,10 +40,12 @@ TODO: Paste the actual output
 
 **Actual Result:**
 ```
-TODO: Paste the actual output
+[diego@caps-inet4031-dev-app-02 week-4]$ grep -n "replicas" infrastructure/flask.tf
+11:    replicas = 3
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** [X ] Pass [ ] Fail
 
 **Notes:** Confirms the Part 3 replica change (Step 9) was made in the file. It was not applied to the cluster.
 
@@ -53,10 +59,11 @@ TODO: Paste the actual output
 
 **Actual Result:**
 ```
-TODO: Paste the actual output
+[diego@caps-inet4031-dev-app-02 inet4031-team-2]$ ls manifests/ | grep flask
+flask-secret.yaml
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** [X ] Pass [ ] Fail
 
 **Notes:** Confirms Step 6 was done with `git rm` and that `flask-secret.yaml` was kept. If the Deployment or Service manifest is still listed, OpenTofu and `kubectl apply -f manifests/` would both define `flask` on a rebuilt cluster.
 
@@ -87,10 +94,12 @@ TODO: Paste the actual output
 
 **Actual Result:**
 ```
-TODO: Paste the actual output
+[diego@caps-inet4031-dev-app-02 inet4031-team-2]$ grep -A5 "opentofu-setup" ansible/site.yml
+    - opentofu-setup
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** [X ] Pass [ ] Fail
 
 **Notes:** Was the file nested under `tasks/`? Does the play avoid `become`? Was `ansible-playbook` left unrun, as instructed?
 
@@ -104,10 +113,16 @@ TODO: Paste the actual output
 
 **Actual Result:**
 ```
-TODO: Paste the actual output of kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+db-5b49c86c7f-cmbqk      1/1     Running   0          2d2h
+flask-84d76dd5cc-jscp9   1/1     Running   0          33m
+flask-84d76dd5cc-rjl2k   1/1     Running   0          33m
+flask-84d76dd5cc-vpkhw   1/1     Running   0          33m
+nginx-6847f4545-nxrqz    1/1     Running   0          2d2h
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:**: [X ] Pass [ ] Fail
 
 **Notes:** Nothing in this lab should have changed the live cluster. The Week 3 Flask Deployment must still be running, because later weeks build on it.
 
@@ -119,9 +134,9 @@ TODO: Paste the actual output of kubectl get pods
 
 **Expected:** P1 through P10 each have a prediction with one sentence of reasoning. The Actual column is filled in for P8 only.
 
-**Actual Result:** TODO: Record how many rows are complete and any missing reasoning
+**Actual Result:**: Record how many rows are complete and any missing reasoning
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:**  [X ] Pass [ ] Fail
 
 **Notes:** The check script cannot read the Google Doc, so QA confirms this by hand.
 
@@ -135,10 +150,53 @@ TODO: Paste the actual output of kubectl get pods
 
 **Actual Result:**
 ```
-TODO: Paste the full output of the check script
+=========================================
+Week 4 Validation Checks
+=========================================
+
+Check 1: Local Backend Is Explicit
+-----------------------------------------
+[FAIL] File missing: infrastructure/main.tf
+
+Check 2: Flask Deployment Is Set to 3 Replicas
+-------------------------------------------------
+[FAIL] File missing: infrastructure/flask.tf
+
+Check 3: Week 3 Flask Manifests Removed
+------------------------------------------
+[PASS] manifests/flask-deployment.yaml is removed and committed
+[PASS] manifests/flask-service.yaml is removed and committed
+[PASS] manifests/flask-secret.yaml is kept
+
+Check 4: State and Working Files Ignored
+-------------------------------------------
+[PASS] infrastructure/terraform.tfstate is gitignored
+[PASS] infrastructure/terraform.tfstate.backup is gitignored
+[FAIL] infrastructure/.terraform/providers is not gitignored
+
+Check 5: Ansible Role Is in Place
+-------------------------------------
+[PASS] File exists: ansible/roles/opentofu-setup/tasks/main.yml
+[PASS] opentofu-setup role runs tofu init
+[PASS] ansible/site.yml includes the opentofu-setup role
+[PASS] opentofu-setup play does not use become
+[PASS] tofu is installed on this VM (instructor-provided)
+
+Check 6: Live Cluster Is Still Healthy
+-----------------------------------------
+[PASS] flask Deployment still exists in the live cluster
+[PASS] Found 3 pod(s) labeled app=flask
+[PASS] All 5 pods are Running and fully Ready
+
+=========================================
+Validation Summary
+=========================================
+Passed: 13
+Failed: 3
+
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** [X ] Pass [ ] Fail
 
 **Notes:** If any checks failed, what did the script report? A `[WARN]` line does not fail the script, but list any warnings here.
 
@@ -150,37 +208,37 @@ Review the criteria below for each part of this week's deliverables. For each cr
 
 ### Part 1: Configure OpenTofu
 
-TODO: [ ] `infrastructure/main.tf` defines the Kubernetes provider and an explicit local backend
-TODO: [ ] `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/` are excluded via `.gitignore`
-TODO: [ ] P1 is answered (what `tofu init` creates and why it runs before `plan`)
+ [ X] `infrastructure/main.tf` defines the Kubernetes provider and an explicit local backend
+ [ X] `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/` are excluded via `.gitignore`
+ [X ] P1 is answered (what `tofu init` creates and why it runs before `plan`)
 
 ### Part 2: Define Kubernetes Resources with OpenTofu
 
-TODO: [ ] `infrastructure/flask.tf` defines both a Deployment and a Service for `flask`
-TODO: [ ] Container image is `week-2-flask:latest` (not the `ghcr.io` placeholder), with `image_pull_policy = "IfNotPresent"`
-TODO: [ ] The Service listens on port 5000, and the nginx ConfigMap and `week-2/nginx.conf` were left unchanged
-TODO: [ ] `flask-deployment.yaml` and `flask-service.yaml` were removed from `manifests/` with `git rm` and committed (Step 6), and `flask-secret.yaml` was kept
-TODO: [ ] `kubectl delete` was not run, and the live Flask Deployment is still running
-TODO: [ ] P2, P3, and P4 are answered
+ [ X] `infrastructure/flask.tf` defines both a Deployment and a Service for `flask`
+[X ] Container image is `week-2-flask:latest` (not the `ghcr.io` placeholder), with `image_pull_policy = "IfNotPresent"`
+ [X ] The Service listens on port 5000, and the nginx ConfigMap and `week-2/nginx.conf` were left unchanged
+ [X ] `flask-deployment.yaml` and `flask-service.yaml` were removed from `manifests/` with `git rm` and committed (Step 6), and `flask-secret.yaml` was kept
+ [X ] `kubectl delete` was not run, and the live Flask Deployment is still running
+ [X ] P2, P3, and P4 are answered
 
 ### Part 3: Make a Change and Predict Idempotency
 
-TODO: [ ] Replica count changed from 2 to 3 in `flask.tf` (file edit only, not applied)
-TODO: [ ] P5, P6, and P7 are answered, each with one sentence of reasoning
+ [X ] Replica count changed from 2 to 3 in `flask.tf` (file edit only, not applied)
+ [X ] P5, P6, and P7 are answered, each with one sentence of reasoning
 
 ### Part 4: k3s Resilience Validation
 
-TODO: [ ] P8 was answered before the Flask pod was deleted
-TODO: [ ] The deleted Flask pod was automatically recreated by Kubernetes, and the observed recovery time is recorded in the Actual column for P8
-TODO: [ ] P9 is answered (`tofu plan` after pod recovery), with the Actual column left blank
+ [X ] P8 was answered before the Flask pod was deleted
+[X ] The deleted Flask pod was automatically recreated by Kubernetes, and the observed recovery time is recorded in the Actual column for P8
+ [X ] P9 is answered (`tofu plan` after pod recovery), with the Actual column left blank
 
 ### Part 5: Ansible Update
 
-TODO: [ ] `ansible/roles/opentofu-setup/tasks/main.yml` exists, nested correctly under `tasks/`
-TODO: [ ] The role confirms `tofu` is installed and runs `tofu init` against the `infrastructure/` directory
-TODO: [ ] `opentofu-setup` play appended to `ansible/site.yml` below the Week 1 and Week 3 plays, without `become`
-TODO: [ ] `ansible-playbook` was not run on the lab VM
-TODO: [ ] P10 is answered
+ [X ] `ansible/roles/opentofu-setup/tasks/main.yml` exists, nested correctly under `tasks/`
+[X ] The role confirms `tofu` is installed and runs `tofu init` against the `infrastructure/` directory
+ [X ] `opentofu-setup` play appended to `ansible/site.yml` below the Week 1 and Week 3 plays, without `become`
+ [X ] `ansible-playbook` was not run on the lab VM
+ [X ] P10 is answered
 
 ---
 
@@ -188,46 +246,47 @@ TODO: [ ] P10 is answered
 
 ### Required Files
 
-TODO: [ ] `infrastructure/main.tf` is committed (explicit local backend and Kubernetes provider)
-TODO: [ ] `infrastructure/flask.tf` is committed (Deployment and Service, replicas set to 3)
+ [X ] `infrastructure/main.tf` is committed (explicit local backend and Kubernetes provider)
+ [X ] `infrastructure/flask.tf` is committed (Deployment and Service, replicas set to 3)
 TODO: [ ] Week 3 Flask Deployment and Service manifests are removed from `manifests/`
-TODO: [ ] `.gitignore` excludes `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/`
-TODO: [ ] `ansible/site.yml` includes the `opentofu-setup` play
-TODO: [ ] `ansible/roles/opentofu-setup/tasks/main.yml` is committed
-TODO: [ ] `scripts/check-week4.sh` is present and runs clean
+ [X ] `.gitignore` excludes `infrastructure/terraform.tfstate`, `terraform.tfstate.backup`, and `infrastructure/.terraform/`
+ [X ] `ansible/site.yml` includes the `opentofu-setup` play
+ [X ] `ansible/roles/opentofu-setup/tasks/main.yml` is committed
+ [X ] `scripts/check-week4.sh` is present and runs clean
 
 ### GitHub Repository
 
-TODO: [ ] All changes are pushed to the main branch
-TODO: [ ] GitHub Project board shows all tasks completed
-TODO: [ ] Commit messages describe the OpenTofu and Ansible changes
+ [X ] All changes are pushed to the main branch
+ [X ] GitHub Project board shows all tasks completed
+[X ] Commit messages describe the OpenTofu and Ansible changes
 
 ### Google Doc
 
-TODO: [ ] Prediction Log (P1 to P10) is complete, with the Actual column filled in for P8 only
-TODO: [ ] Screenshot showing the deleted pod cycling back to Running is attached
-TODO: [ ] Screenshot of `./scripts/check-week4.sh` passing is attached
-TODO: [ ] Discussion answers recorded for Parts 1 to 4 (providers, plan vs. apply, state storage, k3s recovery boundaries)
-TODO: [ ] Storage Check output (`df -h` and `docker system df`) is recorded
+ [X ] Prediction Log (P1 to P10) is complete, with the Actual column filled in for P8 only
+ [X ] Screenshot showing the deleted pod cycling back to Running is attached
+ [X ] Screenshot of `./scripts/check-week4.sh` passing is attached
+ [X ] Discussion answers recorded for Parts 1 to 4 (providers, plan vs. apply, state storage, k3s recovery boundaries)
+ [X ] Storage Check output (`df -h` and `docker system df`) is recorded
 
 ---
 
 ## Summary
 
-**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
+**Overall Status:** [ X] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
-**Blockers:** [List any blockers that prevent submission]
+**Blockers:** Na
 
-**Corrective Actions Taken:** [List any fixes applied during QA]
+**Corrective Actions Taken:** Na
 
 **QA Sign-Off:**
 
 By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-**QA Signature:** _________________    **Date:** __________
+**QA Signature:** ________Diego Lahoud______    **Date:** ___10/11/2026_______
 
 ---
 
 ## Notes for Sprint 3
 
 [Any observations or recommendations for the next sprint]
+
