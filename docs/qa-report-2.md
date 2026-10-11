@@ -196,9 +196,9 @@ Failed: 3
 
 ```
 
-**Status:** [X ] Pass [ ] Fail
+**Status:** [ ] Pass [X] Fail
 
-**Notes:** If any checks failed, what did the script report? A `[WARN]` line does not fail the script, but list any warnings here.
+**Notes:** 3 checks did not pass: main.tf and flask.tf existence, as well as a gitignore for a terraform file. The first two files exist, however the terraform files were deleted and we were not sure how to get them back. View the last entry of the google doc lab 4 section for screenshot proof of main.tf and flask.tf file existence. We will be bringing this up in class.
 
 ---
 
