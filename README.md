@@ -39,23 +39,11 @@ week-1/ .. week-9/      - per-week working directories (some weeks' real deliver
                           .github/workflows/ - see each week-N README for specifics)
 ```
 
-## Getting Each Week's Starter Content
 
-Starting Week 2, each week has a corresponding `inet4031-week0N` repo with starter
-and reference files for that week. You pull only what you need from it into this one
-repo, it will never replace this repository.
 
 ## Team Documents
 
 **Google Doc:** https://docs.google.com/document/d/1cKZ5M6EO2Cq8WVcOM9jIa4A0AK0kp6CmjXptyxA5kSg/edit?usp=sharing
 
-
-## Getting Started
-
-1. Read the Week 1 wiki directions completely before beginning.
-2. Follow Part 1, then Part 2, then Part 3 in order.
-3. Before submitting, run `./scripts/check-week1.sh` from the repo root to verify
-   all Week 1 requirements are met.
-4. Reference `docs/qa-report-1.md` for the sign-off checklist.
 
 
