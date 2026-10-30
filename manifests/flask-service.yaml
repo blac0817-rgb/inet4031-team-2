@@ -1,76 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-app
-  namespace: default
-  labels:
-    app: flask-app
-    tier: backend
-spec:
-  selector:
-    app: flask-app
-  ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: 5000
-  type: ClusterIP
-
----
-# Ingress — expose the Service outside the cluster
-# Requires an ingress controller (e.g. nginx-ingress) installed in the cluster.
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: flask-app
-  namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    # Uncomment to enable TLS termination via cert-manager:
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kompose.cmd: kompose convert -f ../week-2/docker-compose.yml
+    kompose.version: 1.38.0 (a8f5d1cbd)
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "5000"
+    prometheus.io/path: /metrics
+  labels:
+    app: flask
+  name: flask
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: flask-app.example.com   # replace with your domain
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: flask-app
-                port:
-                  name: http
-  # Uncomment to terminate TLS at the ingress:
-  # tls:
-  #   - hosts:
-  #       - flask-app.example.com
-  #     secretName: flask-app-tls
-
----
-# HorizontalPodAutoscaler — scale replicas based on CPU load
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: flask-app
-  namespace: default
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: flask-app
-  minReplicas: 2
-  maxReplicas: 8
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 70
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 80
+  ports:
+    - name: "5000"
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: flask

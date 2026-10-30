@@ -1,153 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
-  namespace: default
+  annotations:
+    kompose.cmd: kompose convert -f ../week-2/docker-compose.yml
+    kompose.version: 1.38.0 (a8f5d1cbd)
   labels:
-    app: flask-app
-    tier: backend
+    app: flask
+  name: flask
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: flask-app
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      app: flask
   template:
     metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ../week-2/docker-compose.yml
+        kompose.version: 1.38.0 (a8f5d1cbd)
       labels:
-        app: flask-app
-        tier: backend
+        app: flask
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-
       containers:
-        - name: flask-app
-          image: your-registry/flask-app:latest   # replace with your image
-          imagePullPolicy: Always
+        - envFrom:
+            - secretRef:
+                name: flask-credentials
+          image: week-2-flask:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:5000/health
+            failureThreshold: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+          name: flask
           ports:
-            - name: http
-              containerPort: 5000
+            - containerPort: 5000
               protocol: TCP
-
-          env:
-            - name: FLASK_ENV
-              value: "production"
-            - name: FLASK_APP
-              value: "app.py"
-            # Inject secrets from a Kubernetes Secret (never hardcode credentials)
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: flask-app-secrets
-                  key: database-url
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: flask-app-secrets
-                  key: secret-key
-
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: 100m
+              memory: 128Mi
             limits:
-              cpu: "500m"
-              memory: "256Mi"
-
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            initialDelaySeconds: 15
-            periodSeconds: 20
-            failureThreshold: 3
-
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            failureThreshold: 3
-
-          volumeMounts:
-            - name: tmp-dir
-              mountPath: /tmp             # writable scratch space (readOnlyRootFilesystem)
-            - name: app-config
-              mountPath: /app/config
-              readOnly: true
-
-      volumes:
-        - name: tmp-dir
-          emptyDir: {}
-        - name: app-config
-          configMap:
-            name: flask-app-config
-
+              cpu: 500m
+              memory: 256Mi
       restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flask-app
-  namespace: default
-  labels:
-    app: flask-app
-spec:
-  selector:
-    app: flask-app
-  ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: http
-  type: ClusterIP
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flask-app-config
-  namespace: default
-data:
-  gunicorn.conf.py: |
-    bind = "0.0.0.0:5000"
-    workers = 2
-    threads = 4
-    timeout = 30
-    accesslog = "-"
-    errorlog = "-"
-    loglevel = "info"
-
----
-# kubectl create secret generic flask-app-secrets \
-#   --from-literal=database-url='postgresql://user:pass@host:5432/db' \
-#   --from-literal=secret-key='your-flask-secret-key'
-#
-# Reference only — do not apply this directly with real values in source control.
-apiVersion: v1
-kind: Secret
-metadata:
-  name: flask-app-secrets
-  namespace: default
-type: Opaque
-stringData:
-  database-url: "postgresql://user:password@db-host:5432/dbname"
-  secret-key: "replace-with-a-strong-random-value"
