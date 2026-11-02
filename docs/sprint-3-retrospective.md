@@ -22,10 +22,10 @@ Use this section to note which team members led which parts of the work:
 
 | Role | Name | Primary Contribution |
 |---|---|---|
-| Scrum Master | Marcos Flores
-| System Admin | Tyler Xiong
-| QA | Jakob Black
-| Developers | Sumaya Ahmed, Digeo Lahoud Lou, Ty Her, Randeep Singh
+| Scrum Master | Marcos Flores | Project board, Retrospective, here and there
+| System Admin | Tyler Xiong | Terminal Jockey, File additions
+| QA | Jakob Black | QA checks, QA report, Lion's share of troubleshooting
+| Developers | Sumaya Ahmed, Digeo Lahoud Lou, Ty Her, Randeep Singh | Code, Here and There
 
 
 ## Notes
