@@ -6,15 +6,15 @@ This file is completed at the end of week 6. Review what your team shipped, what
 
 ## What Went Well
 
-TODO: What did your team do well this sprint? What accomplishment are you proud of?
+Completed submissions, CI pipeline was eventually figured out and succesfully completed.
 
 ## What Could Be Better
 
-TODO: What was difficult? What slowed you down? What surprised you?
+We are continuously running across issues with the VM's resources, as well as little hiccups in the instructions. As has been noted in previous retrospectives, problems were expected based off the new and experiental nature of the course. 
 
 ## What We'll Do Differently Next Sprint
 
-TODO: Based on what you learned, name one specific process change or workflow improvement you will try in Sprint 4.
+Document our good old buddy Claudes troubleshooting process. It has been difficulut to communicate all the steps taken in sometimes long and confusing process.
 
 ## Team Contributions
 
@@ -22,12 +22,12 @@ Use this section to note which team members led which parts of the work:
 
 | Role | Name | Primary Contribution |
 |---|---|---|
-| Scrum Master | | |
-| System Admin | | |
-| QA | | |
-| Developer 1 | | |
-| Developer 2+ | | |
+| Scrum Master | Marcos Flores
+| System Admin | Tyler Xiong
+| QA | Jakob Black
+| Developers | Sumaya Ahmed, Digeo Lahoud Lou, Ty Her, Randeep Singh
+
 
 ## Notes
 
-Any additional context about the sprint that does not fit the structure above.
+KEEP ON TRUCKING!!!!!!!!!!!!
