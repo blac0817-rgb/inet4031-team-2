@@ -32,8 +32,8 @@
 3. Verify: re-run EXPLAIN ANALYZE, confirm "Index Scan" appears
 
 **Measured Before/After vs. Stated Target:**
-- Mean query time before index: [your value]ms
-- Mean query time after index: [your value]ms
+- Mean query time before index: 17.9ms
+- Mean query time after index: 0.2ms
 - P95 before: 4.49s
 - P95 after: 79.14ms
 - Target: P95 < 500ms
