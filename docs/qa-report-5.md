@@ -2,8 +2,8 @@
 
 QA is responsible for running all validation checks and signing off before deliverables are submitted. This report documents the validation process.
 
-**QA Team Member:** [Name]
-**Date Completed:** [Date]
+**QA Team Member:** Randeep Singh
+**Date Completed:** 11/12/26
 
 ---
 
@@ -17,10 +17,10 @@ QA is responsible for running all validation checks and signing off before deliv
 
 **Actual Result:**
 ```
-TODO: Paste the actual row count
+50003
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [ x] Pass [ ] Fail
 
 **Notes:** If the count is far off (e.g. near 0 or near 1), was `seed.py --rows 50000` re-run against a fresh Postgres container -- for example after a host reboot, since the `week-2` Compose stack does not restart automatically?
 
@@ -34,10 +34,14 @@ TODO: Paste the actual row count
 
 **Actual Result:**
 ```
-TODO: Paste the index listing and the EXPLAIN ANALYZE output
+                          List of relations
+ Schema |             Name             | Type  |  Owner  |   Table
+--------+------------------------------+-------+---------+-----------
+ public | idx_incidents_status_created | index | appuser | incidents
+(1 row)
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x ] Pass [ ] Fail
 
 **Notes:** Was `pg_stat_statements` confirmed loaded via `SHOW shared_preload_libraries;` before it was queried (Step 13a)? `CREATE EXTENSION IF NOT EXISTS pg_stat_statements` alone does not load it, and the stats query will error at runtime if this step was skipped.
 
@@ -51,10 +55,10 @@ TODO: Paste the index listing and the EXPLAIN ANALYZE output
 
 **Actual Result:**
 ```
-TODO: Paste the query result
+PASS
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [ x] Pass [ ] Fail
 
 **Notes:** Did the ramped load test that produced this reading actually target your team's Kubernetes port (`k6 run -e BASE_URL=http://localhost:<your Kubernetes port> ...`)? Without `-e BASE_URL`, the test defaults to `http://localhost:8080`, which never reaches the throttled pods -- that reads as a clean "no throttling" result regardless of what the CPU limit is set to. Also confirm the metric name used was `container_cpu_cfs_throttled_periods_total`, not `_seconds_total` -- the latter is cgroup v1-only and returns no data at all on cgroup v2 hosts (the default on modern Docker/k3d setups).
 
@@ -68,10 +72,49 @@ TODO: Paste the query result
 
 **Actual Result:**
 ```
-TODO: Paste the k6 summary output
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: week-9/smoke-test.js
+     output: -
+
+  scenarios: (100.00%) 1 scenario, 5 max VUs, 1m30s max duration (incl. graceful stop):
+           * default: 5 looping VUs for 1m0s (gracefulStop: 30s)
+
+WARN[0000] Error from API server                         error="listen tcp 127.0.0.1:6565: bind: address already in use
+
+     ✓ status is 200
+     ✓ response time < 500ms
+
+     checks.........................: 100.00% ✓ 580      ✗ 0
+     data_received..................: 6.1 MB  101 kB/s
+     data_sent......................: 26 kB   423 B/s
+     http_req_blocked...............: avg=34.17µs  min=2.34µs  med=7.68µs   max=3.87ms   p(90)=12.32µs  p(95)=18.26µs
+     http_req_connecting............: avg=10.93µs  min=0s      med=0s       max=1.11ms   p(90)=0s       p(95)=0s
+   ✓ http_req_duration..............: avg=50.08ms  min=27.52ms med=49.22ms  max=87.23ms  p(90)=63.69ms  p(95)=67.64ms
+       { expected_response:true }...: avg=50.08ms  min=27.52ms med=49.22ms  max=87.23ms  p(90)=63.69ms  p(95)=67.64ms
+   ✓ http_req_failed................: 0.00%   ✓ 0        ✗ 290
+     http_req_receiving.............: avg=233.56µs min=40.81µs med=145.92µs max=3.49ms   p(90)=499.34µs p(95)=746.57µs
+     http_req_sending...............: avg=40.13µs  min=7.6µs   med=33.14µs  max=319.18µs p(90)=63.99µs  p(95)=86.9µs
+     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=49.8ms   min=27.41ms med=48.76ms  max=87.1ms   p(90)=63.49ms  p(95)=67.27ms
+     http_reqs......................: 290     4.755161/s
+     iteration_duration.............: avg=1.05s    min=1.02s   med=1.05s    max=1.08s    p(90)=1.06s    p(95)=1.06s
+     iterations.....................: 290     4.755161/s
+     vus............................: 5       min=5      max=5
+     vus_max........................: 5       min=5      max=5
+
+
+running (1m01.0s), 0/5 VUs, 290 complete and 0 interrupted iterations
+default ✓ [======================================] 5 VUs  1m0s
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x ] Pass [ ] Fail
 
 **Notes:** Was this run against your healthy k3d application (`kubectl get pods` all `Running`), with `-e BASE_URL=http://localhost:<your Kubernetes port>`? An application that isn't up fails every request instead of failing the threshold cleanly, and can be mistaken for a performance regression.
 
@@ -85,10 +128,12 @@ TODO: Paste the k6 summary output
 
 **Actual Result:**
 ```
-TODO: Paste the output of both commands
+500m
+66:              cpu    = "500m"
+70:              cpu    = "100m"
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x ] Pass [ ] Fail
 
 **Notes:** Both should show `500m`. If the live value is still `100m`, the Step 15 `kubectl set resources` fix was not applied. Do not run `tofu plan` on the shared VM -- the OpenTofu step is predict-only this week.
 
@@ -102,10 +147,54 @@ TODO: Paste the output of both commands
 
 **Actual Result:**
 ```
-TODO: Paste the full output of the check script
+==========================================
+Week 9 Validation Check
+==========================================
+
+Checking database row count...
+[PASS] Row count: 50003 (approximately 50,000 expected)
+
+Checking database index...
+[PASS] Index idx_incidents_status_created exists
+
+Checking CPU throttle rate...
+[PASS] CPU throttle rate: 0.0000 (< 0.01 after fix)
+
+Checking k6 test scripts...
+[PASS] smoke-test.js exists
+[PASS] ramped-test.js exists
+
+Checking runbook documentation...
+[PASS] runbook.md exists
+[PASS] Runbook includes Incident 1 (CPU throttling)
+[PASS] Runbook includes Incident 2 (sequential scan)
+
+Checking Flask CPU limit (live cluster and infrastructure/flask.tf)...
+[PASS] Live Flask Deployment CPU limit is 500m
+[PASS] infrastructure/flask.tf exists
+[PASS] infrastructure/flask.tf sets a 500m CPU limit
+
+Checking GitHub Actions CI gate...
+[PASS] .github/workflows/ci.yml exists
+[PASS] CI workflow includes k6 threshold gate
+
+Checking role artifact files...
+[PASS] docs/sprint-5-retrospective.md exists
+[PASS] docs/qa-report-5.md exists
+
+Checking pg_stat_statements...
+[PASS] pg_stat_statements is loaded (shared_preload_libraries)
+
+==========================================
+Summary
+==========================================
+Passed: 16
+Failed: 0
+
+All checks passed!
 ```
 
-**Status:** TODO: [ ] Pass [ ] Fail
+**Status:** TODO: [x ] Pass [ ] Fail
 
 **Notes:** The script's CPU-throttle check queries Prometheus directly and requires the Step 0a port-forward (`kubectl port-forward -n monitoring service/prometheus-server <your Prometheus port>:80`) to still be running.
 
@@ -117,39 +206,39 @@ Review the criteria below for each part of this week's deliverables. For each cr
 
 ### Part 1: Load the Database
 
-TODO: [ ] `seed.py --rows 50000` executed inside the `flask` container, using the app's own `DATABASE_URL`
-TODO: [ ] Row count verified as approximately 50,000
+TODO: [x ] `seed.py --rows 50000` executed inside the `flask` container, using the app's own `DATABASE_URL`
+TODO: [x ] Row count verified as approximately 50,000
 
 ### Part 2: Baseline Load Test
 
-TODO: [ ] `week-9/smoke-test.js` created with `p(95)<500` and `rate<0.01` thresholds
-TODO: [ ] Baseline k6 run completed and screenshotted to the Google Doc
+TODO: [x ] `week-9/smoke-test.js` created with `p(95)<500` and `rate<0.01` thresholds
+TODO: [x ] Baseline k6 run completed and screenshotted to the Google Doc
 
 ### Part 3: Ramped Load Test and USE Method Diagnosis
 
-TODO: [ ] Intentional 100m CPU limit applied to `flask` with `kubectl set resources`, per Step 9
-TODO: [ ] `week-9/ramped-test.js` created and run with `-e BASE_URL=http://localhost:<your Kubernetes port>`
-TODO: [ ] Ramped test run while re-running the USE queries with `week-5/pq.sh`
-TODO: [ ] Non-zero CPU throttle rate captured and screenshotted before the fix
-TODO: [ ] `pg_stat_statements` enabled via `shared_preload_libraries` (Step 13a) before diagnosis
-TODO: [ ] `EXPLAIN (ANALYZE, BUFFERS)` captured showing `Seq Scan` before the index
+TODO: [x ] Intentional 100m CPU limit applied to `flask` with `kubectl set resources`, per Step 9
+TODO: [x ] `week-9/ramped-test.js` created and run with `-e BASE_URL=http://localhost:<your Kubernetes port>`
+TODO: [x ] Ramped test run while re-running the USE queries with `week-5/pq.sh`
+TODO: [x ] Non-zero CPU throttle rate captured and screenshotted before the fix
+TODO: [x ] `pg_stat_statements` enabled via `shared_preload_libraries` (Step 13a) before diagnosis
+TODO: [x ] `EXPLAIN (ANALYZE, BUFFERS)` captured showing `Seq Scan` before the index
 
 ### Part 4: Fix Both Issues and Measure Improvement
 
-TODO: [ ] Index created with `CREATE INDEX CONCURRENTLY idx_incidents_status_created`
-TODO: [ ] `EXPLAIN (ANALYZE, BUFFERS)` re-run, confirms `Index Scan` replaces `Seq Scan`
-TODO: [ ] `infrastructure/flask.tf` CPU limit confirmed/restored to 500m
-TODO: [ ] Live CPU limit restored to 500m with `kubectl set resources`, `infrastructure/flask.tf` confirmed at 500m, and the [PREDICT ONLY] prediction recorded (Step 15)
-TODO: [ ] Ramped test re-run; RPS, P50, P95, and error rate recorded and compared to baseline
-TODO: [ ] CPU throttle rate re-queried and confirmed near zero
+TODO: [x ] Index created with `CREATE INDEX CONCURRENTLY idx_incidents_status_created`
+TODO: [x ] `EXPLAIN (ANALYZE, BUFFERS)` re-run, confirms `Index Scan` replaces `Seq Scan`
+TODO: [x ] `infrastructure/flask.tf` CPU limit confirmed/restored to 500m
+TODO: [x ] Live CPU limit restored to 500m with `kubectl set resources`, `infrastructure/flask.tf` confirmed at 500m, and the [PREDICT ONLY] prediction recorded (Step 15)
+TODO: [x ] Ramped test re-run; RPS, P50, P95, and error rate recorded and compared to baseline
+TODO: [x ] CPU throttle rate re-queried and confirmed near zero
 
 ### Part 5: Add k6 Threshold Gate to CI
 
-TODO: [ ] `.github/workflows/ci.yml` has a `load-test-gate` job depending on `build-and-push`
-TODO: [ ] Job brings up the `week-2` Compose stack with `--wait` before running k6
-TODO: [ ] Job runs `k6 run week-9/smoke-test.js` as the threshold gate
-TODO: [ ] Teardown step runs `docker compose down -v` with `if: always()`
-TODO: [ ] All changes committed and pushed to `main`
+TODO: [x ] `.github/workflows/ci.yml` has a `load-test-gate` job depending on `build-and-push`
+TODO: [x ] Job brings up the `week-2` Compose stack with `--wait` before running k6
+TODO: [x ] Job runs `k6 run week-9/smoke-test.js` as the threshold gate
+TODO: [x ] Teardown step runs `docker compose down -v` with `if: always()`
+TODO: [x ] All changes committed and pushed to `main`
 
 ---
 
@@ -157,34 +246,34 @@ TODO: [ ] All changes committed and pushed to `main`
 
 ### Required Files
 
-TODO: [ ] `week-9/smoke-test.js` is committed
-TODO: [ ] `week-9/ramped-test.js` is committed and reads its target from `BASE_URL`
-TODO: [ ] `week-9/runbook.md` is committed using the two-incident format, with measured values filled in (not placeholders)
-TODO: [ ] `infrastructure/flask.tf` reflects the corrected 500m CPU limit
-TODO: [ ] `.github/workflows/ci.yml` includes the `load-test-gate` job
-TODO: [ ] `scripts/check-week9.sh` present and runs clean
+TODO: [x ] `week-9/smoke-test.js` is committed
+TODO: [x ] `week-9/ramped-test.js` is committed and reads its target from `BASE_URL`
+TODO: [x ] `week-9/runbook.md` is committed using the two-incident format, with measured values filled in (not placeholders)
+TODO: [x ] `infrastructure/flask.tf` reflects the corrected 500m CPU limit
+TODO: [x ] `.github/workflows/ci.yml` includes the `load-test-gate` job
+TODO: [x ] `scripts/check-week9.sh` present and runs clean
 
 ### GitHub Repository
 
-TODO: [ ] All changes are pushed to the main branch
-TODO: [ ] `manifests/db-deployment.yaml` committed with the `pg_stat_statements` startup flag
+TODO: [x ] All changes are pushed to the main branch
+TODO: [x ] `manifests/db-deployment.yaml` committed with the `pg_stat_statements` startup flag
 
 ### Google Doc
 
-TODO: [ ] "Week 9 Baseline" k6 screenshot attached
-TODO: [ ] Non-zero throttle rate screenshot (before fix) attached
-TODO: [ ] `Seq Scan` EXPLAIN ANALYZE screenshot (before the index) attached
-TODO: [ ] `Index Scan` EXPLAIN ANALYZE screenshot (after the index) attached
-TODO: [ ] Post-fix k6 threshold-passing screenshot attached
-TODO: [ ] `./scripts/check-week9.sh` passing screenshot attached
-TODO: [ ] Discussion answers recorded for Parts 3, 4, and 5
-TODO: [ ] Week 9 storage check recorded
+TODO: [x ] "Week 9 Baseline" k6 screenshot attached
+TODO: [ x] Non-zero throttle rate screenshot (before fix) attached
+TODO: [x ] `Seq Scan` EXPLAIN ANALYZE screenshot (before the index) attached
+TODO: [x ] `Index Scan` EXPLAIN ANALYZE screenshot (after the index) attached
+TODO: [x ] Post-fix k6 threshold-passing screenshot attached
+TODO: [x ] `./scripts/check-week9.sh` passing screenshot attached
+TODO: [x ] Discussion answers recorded for Parts 3, 4, and 5
+TODO: [x ] Week 9 storage check recorded
 
 ---
 
 ## Summary
 
-**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
+**Overall Status:** [x ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
 **Blockers:** [List any blockers that prevent submission]
 
@@ -194,7 +283,7 @@ TODO: [ ] Week 9 storage check recorded
 
 By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-**QA Signature:** _________________    **Date:** __________
+**QA Signature:** Randeep Singh    **Date:** 11/12/26
 
 ---
 
