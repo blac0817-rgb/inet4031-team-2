@@ -1,0 +1,6 @@
+category,closed_incidents,median_hours,p90_hours
+Network,1258,8.21,32.91
+Dispatch app,2302,4.08,12.71
+Scanners and handhelds,2971,3.09,8.54
+Printers and labels,1890,1.97,4.23
+Logins and access,2058,1.02,2.18

@@ -1,0 +1,3 @@
+Weekly incident volume rose by about 15 incidents per week (1.9% of the average week; p = 2.3e-05, 12 complete weeks), so the increase is very unlikely to be chance; it does not tell us why volume is rising or whether it will continue.
+
+Network incidents take a median of 8.2 hours to close versus 2.0 hours for printers and labels (Mann-Whitney p = 2.72e-247); that gap is real, but it measures time open, not hours of agent work.

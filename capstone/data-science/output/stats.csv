@@ -1,0 +1,10 @@
+check,metric,value
+trend,weeks_used,12
+trend,slope_incidents_per_week,14.66
+trend,slope_pct_of_mean_week,1.9
+trend,p_value,2.3e-05
+trend,r_squared,0.846
+network_vs_printers,network_median_hours,8.21
+network_vs_printers,printers_median_hours,1.97
+network_vs_printers,mann_whitney_U,2027731.0
+network_vs_printers,p_value,2.72e-247
