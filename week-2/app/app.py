@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS incidents (
     description TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+ALTER TABLE incidents ADD COLUMN IF NOT EXISTS category TEXT;
+ALTER TABLE incidents ADD COLUMN IF NOT EXISTS resolved_at TIMESTAMPTZ;
 """
 
 
@@ -44,6 +46,10 @@ def init_schema():
     raise RuntimeError(f"could not initialize schema: {last_error}")
 
 
+def iso(value):
+    return value.isoformat() if value is not None else None
+
+
 @app.route("/health")
 def health():
     return jsonify(status="ok")
@@ -51,13 +57,23 @@ def health():
 
 @app.route("/incidents", methods=["GET"])
 def list_incidents():
+    try:
+        limit = max(1, min(int(request.args.get("limit", 100)), 5000))
+        offset = max(0, int(request.args.get("offset", 0)))
+    except ValueError:
+        return jsonify(error="limit and offset must be integers"), 400
+
     with get_conn() as conn, conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
-            "SELECT id, title, status, description, created_at FROM incidents "
-            "ORDER BY created_at DESC LIMIT 100"
+            "SELECT id, title, status, description, created_at, category, resolved_at "
+            "FROM incidents ORDER BY created_at DESC, id DESC LIMIT %s OFFSET %s",
+            (limit, offset),
         )
         rows = cur.fetchall()
-    return jsonify([dict(row, created_at=row["created_at"].isoformat()) for row in rows])
+    return jsonify([
+        dict(row, created_at=iso(row["created_at"]), resolved_at=iso(row["resolved_at"]))
+        for row in rows
+    ])
 
 
 @app.route("/incidents", methods=["POST"])
