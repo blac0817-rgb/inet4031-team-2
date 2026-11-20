@@ -1,0 +1,24 @@
+~/data-science-venv/bin/python -c "import pandas; print(pandas.__version__)"
+2.3.3
+
+python3 --version
+Python 3.9.25
+
+~/data-science-venv/bin/python -c "import matplotlib; print(matplotlib.__version__)"
+3.9.4
+
+~/data-science-venv/bin/python -c "import scipy; print(scipy.__version__)"
+1.13.1
+
+~/data-science-venv/bin/csvstat --version
+csvstat 2.2.0
+
+psql --version
+-bash: psql: command not found
+
+jq --version
+jq-1.6
+
+duckdb --version
+-bash: duckdb: command not found
+
